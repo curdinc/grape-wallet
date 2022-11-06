@@ -1,26 +1,30 @@
-import { signOut, useSession } from 'next-auth/react';
-import { HeroSection } from '../components/LandingPage/HeroSection';
-import { HeaderAction } from '../components/NavBar/NavBar';
+import { GetServerSideProps } from 'next';
+import { unstable_getServerSession } from 'next-auth';
+import ProfilePage from '../components/ProfilePage/profile-page';
+import { authOptions } from './api/auth/[...nextauth]';
 
 export default function Dashboard() {
-  const { data: session } = useSession();
-  if (session) {
-    return (
-      <>
-        {' '}
-        Signed in as {session.user?.email} <br />{' '}
-        <button type="submit" onClick={() => signOut()}>
-          Sign out
-        </button>{' '}
-      </>
-    );
-  }
-
   return (
-    <>
-      <HeaderAction />
-      <HeroSection />
-      {/* <ColorSchemeToggle /> */}
-    </>
+    <div style={{ height: '80vh', width: '90vw', backgroundColor: 'blue' }}>
+      <ProfilePage />
+    </div>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await unstable_getServerSession(context.req, context.res, authOptions);
+  if (session) {
+    return {
+      props: {
+        session,
+      },
+    };
+  }
+  // Not Signed in
+  return {
+    redirect: {
+      destination: '/',
+      permanent: false,
+    },
+  };
+};
