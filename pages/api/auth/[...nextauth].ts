@@ -36,7 +36,7 @@ export const authOptions = {
   ],
   pages: {
     signIn: '/auth/sign-in',
-    // newUser: '/auth/new-user', // New users will be directed here on first sign in (leave the property out if not of interest)
+    newUser: '/onboard',
   },
   secret: process.env.NEXT_PUBLIC_SECRET,
 };

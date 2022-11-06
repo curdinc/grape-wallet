@@ -41,13 +41,15 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime? @map("email_verified")
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
+    id                String              @id @default(cuid())
+    name              String?
+    email             String?             @unique
+    emailVerified     DateTime?           @map("email_verified")
+    image             String?
+    accounts          Account[]
+    sessions          Session[]
+    UserWalletShards  UserWalletShards[]
+    UserWalletDetails UserWalletDetails[]
 
     @@map("users")
 }
@@ -59,4 +61,27 @@ model VerificationToken {
 
     @@unique([identifier, token])
     @@map("verificationtokens")
+}
+
+model UserWalletShards {
+    id            String   @id @default(cuid())
+    userId        String   @map("user_id")
+    isEncrypted   Boolean  @map("is_encrypted")
+    shard         String   @db.Text
+    walletAddress String   @map("wallet_address")
+    created_at    DateTime @default(now())
+    user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@map("user_wallet_shards")
+}
+
+model UserWalletDetails {
+    id               String   @id @default(cuid())
+    userId           String   @map("user_id")
+    signingPublicKey String   @map("signing_public_key")
+    walletAddress    String?  @map("wallet_address")
+    created_at       DateTime @default(now())
+    user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@map("user_wallet_details")
 }
