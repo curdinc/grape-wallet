@@ -60,9 +60,10 @@ export function GithubButton(props: ButtonProps & React.ComponentPropsWithoutRef
       leftIcon={<GithubIcon size={16} />}
       sx={(theme) => ({
         backgroundColor: theme.colors.dark[theme.colorScheme === 'dark' ? 9 : 6],
+        outline: '1px solid rgb(46, 46, 46)',
         color: '#fff',
         '&:hover': {
-          backgroundColor: theme.colors.dark[theme.colorScheme === 'dark' ? 9 : 6],
+          backgroundColor: theme.colors.dark[theme.colorScheme === 'dark' ? 7 : 4],
         },
       })}
     />
