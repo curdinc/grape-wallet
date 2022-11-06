@@ -1,11 +1,12 @@
-import { Welcome } from '../components/Welcome/Welcome';
-import { ColorSchemeToggle } from '../components/ColorSchemeToggle/ColorSchemeToggle';
+import { HeroSection } from '../components/LandingPage/HeroSection';
+import { HeaderAction } from '../components/NavBar/NavBar';
 
 export default function HomePage() {
   return (
     <>
-      <Welcome />
-      <ColorSchemeToggle />
+      <HeaderAction />
+      <HeroSection />
+      {/* <ColorSchemeToggle /> */}
     </>
   );
 }
