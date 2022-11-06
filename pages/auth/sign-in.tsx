@@ -1,8 +1,10 @@
 // import { Container, Group, Paper, Text, Title } from '@mantine/core';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+import { unstable_getServerSession } from 'next-auth';
 import { getProviders, signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { GithubButton, GoogleButton } from '../../components/SocialButtons/SocialButtons';
+import { authOptions } from '../api/auth/[...nextauth]';
 import styles from './sign-in.module.css';
 
 const errors = {
@@ -25,7 +27,16 @@ const SignInError = ({ error }: { error: keyof typeof errors }) => {
 
 export const getServerSideProps: GetServerSideProps<{
   providers: Awaited<ReturnType<typeof getProviders>>;
-}> = async () => {
+}> = async (context) => {
+  const session = await unstable_getServerSession(context.req, context.res, authOptions);
+  if (session) {
+    return {
+      redirect: {
+        destination: '/dashboard',
+        permanent: false,
+      },
+    };
+  }
   const providers = await getProviders();
   return {
     props: { providers },
