@@ -35,7 +35,7 @@ export default function SignIn({
   providers,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const { error, callbackUrl } = useRouter().query;
-  console.log('callbackUrl', callbackUrl);
+
   if (!providers) {
     return null;
   }
